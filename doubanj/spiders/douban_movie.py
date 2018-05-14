@@ -13,70 +13,7 @@ class DoubanSpider(scrapy.Spider):
     start_urls = [base_url + str(start_number)]
     # 超过一定的时间之后会被ban,每次只爬200部电影
     max_number = 200
-    # def start_requests(self):
-    #     '''
-    #     重写start_requests，请求登录页面
-    #     '''
-    #     return [scrapy.FormRequest("https://accounts.douban.com/login", meta={"cookiejar": 1},
-    #                                callback=self.parse_before_login)]
-    #
-    #
-    # def parse_before_login(self, response):
-    #     '''
-    #     登录表单填充，查看验证码
-    #     '''
-    #     print("登录前表单填充")
-    #     captcha_id = response.xpath('//input[@name="captcha-id"]/@value').extract_first()
-    #     captcha_image_url = response.xpath('//img[@id="captcha_image"]/@src').extract_first()
-    #     if captcha_image_url is None:
-    #         print("登录时无验证码")
-    #         formdata = {
-    #             "source": "index_nav",
-    #             "form_email": "skchang08@126.com",
-    #             # 请填写你的密码
-    #             "form_password": "sweep537",
-    #         }
-    #     else:
-    #         print("登录时有验证码")
-    #         save_image_path = "captcha.jpeg"
-    #         # 将图片验证码下载到本地
-    #         urllib.urlretrieve(captcha_image_url, save_image_path)
-    #         # 打开图片，以便我们识别图中验证码
-    #         try:
-    #             im = Image.open('captcha.jpeg')
-    #             im.show()
-    #         except:
-    #             pass
-    #             # 手动输入验证码
-    #         captcha_solution = raw_input('please input the code:')
-    #         formdata = {
-    #             "source": "None",
-    #             "redir": "https://www.douban.com",
-    #             "form_email": "skchang08@126.com",
-    #             # 此处请填写密码
-    #             "form_password": "sweep537",
-    #             "captcha-solution": captcha_solution,
-    #             "captcha-id": captcha_id,
-    #             "login": "登录",
-    #         }
-    #
-    #     print("登录中")
-    #     return scrapy.FormRequest.from_response(response, meta={"cookiejar": response.meta["cookiejar"]},
-    #                                              formdata=formdata,
-    #                                             callback=self.parse_after_login)
-    #
-    # def parse_after_login(self, response):
-    #     '''
-    #     验证登录是否成功
-    #     '''
-    #     account = response.xpath('//a[@class="bn-more"]/span/text()').extract_first()
-    #     if account is None:
-    #         print("login fail")
-    #
-    #     else:
-    #         print(u"login OK %s" % account)
-    #         return scrapy.Request(self.generate_url(), meta={"cookiejar": response.meta["cookiejar"]},
-    #                               callback=self.parse)
+    
 
     def parse(self, response):
         items = json.loads(response.body)
